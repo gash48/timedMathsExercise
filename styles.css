@@ -1,0 +1,48 @@
+.card {
+    width : 50%;
+    margin: auto auto;
+    margin-top: 10%;
+    text-align: center;
+}
+.card-text{
+    margin: 20px auto;
+    width: 50%;
+
+}
+
+.container{
+border: 1px solid grey;
+    width: 90%;
+    box-shadow: 1px 1px 1px grey;
+    border-radius: 10px;
+    margin-top: 50px;
+    padding: 10px 50px;
+}
+
+.userWrapper{
+    font-size: 30px;
+}
+
+.userWrapper span{
+    margin-left: 20px;
+}
+
+.timerWrapper{
+    font-size: 20px;
+    padding: 5px 10px;
+}
+
+#timer{
+    display: inline-block;
+}
+
+
+
+#ans{
+    width: 20%;
+    margin: auto;
+}
+
+.row{
+    margin-top: 20px;
+}

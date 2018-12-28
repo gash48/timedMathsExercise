@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="./assets/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Maths Quiz</title>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this Page.</noscript>
+
+    <!-- Name Prompt -->
+    <div class="card" id="intro">
+        <div class="card-body">
+            <h4 class="card-title">Enter Your Name</h4>
+            <p class="card-text">
+                <input type="text" class="form-control" id="name" placeholder="Name Here" />
+            </p>
+            <button id="startTest" class="btn btn-primary card-link" disabled>Start Test</button>
+        </div>
+    </div>
+
+    <!-- Test Frame -->
+    <div class="container" style="display:none" id="testPanel">
+        <div class="row">
+            <div class="col-md-6 col-xs-6">
+                <p class="userWrapper"><i class="fa fa-user-o" aria-hidden="true"></i><span id="username"></span></p>
+            </div>
+            <div class="col-md-6 col-xs-6 text-right timerWrapper">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <p id="timer"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 text-center">
+                Question <span id="currentQuestion"></span> of <span id="totalQuestions"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-xs-5 text-right">
+                <h3 id="numberOne">
+                    </h2>
+            </div>
+            <div class="col-md-2 col-xs-2 text-center">
+                <h3 id="operator">
+                    </h2>
+            </div>
+            <div class="col-md-5 col-xs-5 text-left">
+                <h3 id="numberTwo">
+                    </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 text-center" style="padding:12px">
+                <input type="text" class="form-control" id="ans" placeholder="Answer Here" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 text-center">
+                <button id="nextQuestion" class="btn btn-info card-link">Next <i class="fa fa-chevron-right"
+                        aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <div class="row" id="prevReview" style="display:none">
+            <div class="col-md-12 col-xs-12 text-center">
+                Previous Question : <span id="previousQuestion"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Report -->
+    <div class="card" id="report">
+        <div class="card-body">
+            <h4 class="card-title">Your Final Report</h4>
+            <h6>Total Score : <span id="score"></span> out of <span id="totalScore"></span></h6>
+            <h6>Correct : <span id="correct"></span></h6>
+            <h6>Incorrect : <span id="incorrect"></span></h6>
+            <h6>Not Attempted : <span id="na"></span></h6>
+
+            <button id="restartTest" class="btn btn-primary card-link">Restart Test</button>
+        </div>
+    </div>
+
+
+    <script src="./js/controller.js"></script>
+</body>
+
+</html>
