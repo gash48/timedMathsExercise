@@ -68,9 +68,10 @@ let testPanel = function () {
 
     function questionLoop() {
 
-        if (questionIndex == questionsLimit) {
+        if (questionIndex == questionsLimit -1 ) {
             // Logic For Report
             hideElements('testPanel');
+            showElements('report');
             questionReport(responseArray);
             return;
         } else if (questionIndex >= 0 && questionIndex < questionsLimit) {
