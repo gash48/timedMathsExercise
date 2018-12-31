@@ -1,7 +1,7 @@
 .card {
     width : 50%;
     margin: auto auto;
-    margin-top: 10%;
+    margin-top: 4%;
     text-align: center;
 }
 .card-text{
@@ -12,11 +12,12 @@
 
 .container{
 border: 1px solid grey;
-    width: 40%;
+    width: 50%;
     box-shadow: 1px 1px 1px grey;
     border-radius: 10px;
-    margin-top: 50px;
+    margin-top: 20px;
     padding: 10px 50px;
+    float: left;
 }
 
 .userWrapper{
