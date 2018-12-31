@@ -16,99 +16,101 @@
 <body>
     <noscript>You need to enable JavaScript to run this Page.</noscript>
 
-    <!-- Name Prompt -->
-    <div class="card" id="intro">
-        <div class="card-body">
-            <h4 class="card-title">Customize Your Maths Quiz<span class="addMore"><i class="fa fa-plus" aria-hidden="true"></i></span></h4>
+    <!-- INfo Prompt -->
+    <div class="card infoPrompt">
+        <div class="card-body" id="introCard">
+            <h4 class="card-title text-left">Customize Your Maths Quiz<span id="addMore" class="addMore"><i class="fa fa-plus"
+                        aria-hidden="true"></i></span></h4>
             <p class="card-text">
                 <input type="text" class="form-control" id="name" placeholder="Name Here *" />
             </p>
-            <p class="card-text">
-                <input type="number" class="form-control" id="questions" placeholder="Number of Questions (default is 20)" />
-            </p>
-            <p class="card-text">
-                <input type="number" class="form-control" id="timeLimit" placeholder="Time Limit in sec (default is 30s)" />
-            </p>
-            <p class="card-text">
-                <input type="number" class="form-control" id="numLimit" placeholder="Number Limit (default is 20)" />
-            </p>
-            <button id="startTest" class="btn btn-primary card-link" disabled>Start Test</button>
+            <div class="testSettingsWrapper">
+                <h5 class="settingsHead text-left">Test 1</h5>
+                <p class="card-text">
+                    <input type="number" class="form-control questions" placeholder="Number of Questions (default is 20)" />
+                </p>
+                <p class="card-text">
+                    <input type="number" class="form-control timeLimit" placeholder="Time Limit in sec (default is 30s)" />
+                </p>
+                <p class="card-text">
+                    <input type="number" class="form-control numLimit" placeholder="Number Limit (default is 20)" />
+                </p>
+                <hr>
+            </div>
         </div>
+        <button id="startTest" class="btn btn-primary card-link" disabled>Start Test</button>
     </div>
 
     <!-- Test Frame -->
-    <div class="container" style="display:none" id="testPanel">
+    <div class="container" style="display:none">
         <div class="row">
-            <div class="col-md-6 col-xs-6">
-                <p class="userWrapper"><i class="fa fa-user-o" aria-hidden="true"></i><span id="username"></span></p>
+            <div class="col-md-4 col-xs-4">
+                <p class="userWrapper"><i class="fa fa-user-o" aria-hidden="true"></i><span class="username"></span></p>
             </div>
-            <div class="col-md-6 col-xs-6 text-right timerWrapper">
+            <div class="col-md-4 col-xs-4">
+                <p class="testHead text-center"></p>
+            </div>
+            <div class="col-md-4 col-xs-4 text-right timerWrapper">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
-                <p id="timer"></p>
+                <p class="timer"></p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 col-xs-12 text-center">
-                Question <span id="currentQuestion"></span> of <span id="totalQuestions"></span>
+                Question <span class="currentQuestion"></span> of <span class="totalQuestions"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-md-5 col-xs-5 text-right">
-                <h3 id="numberOne">
-                    </h2>
+                <h3 class="numberOne">
+                </h3>
             </div>
             <div class="col-md-2 col-xs-2 text-center">
-                <h3 id="operator">
-                    </h2>
+                <h3 class="operator">
+                </h3>
             </div>
             <div class="col-md-5 col-xs-5 text-left">
-                <h3 id="numberTwo">
-                    </h2>
+                <h3 class="numberTwo">
+                </h3>
             </div>
         </div>
-        <div class="row" id="hint" style="display:none">
+        <div class="row hint" style="display:none">
             <div class="col-md-12 col-xs-12 text-center">
-                <p style="color:#17a2b8; font-size: 11px;margin: 0">Info :- Round Off to nearest integer</p>
-                <p style="color:#17a2b8; font-size: 11px;margin: 0">Enter NA if division Not Possible</p>
+                <p class="hintLabel">Info :- Round Off to nearest integer</p>
+                <p class="hintLabel">Enter NA if division Not Possible</p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 col-xs-12 text-center" style="padding:12px">
-                <input type="text" class="form-control" id="ans" placeholder="Answer Here" />
+                <input type="text" class="form-control ans" placeholder="Answer Here" />
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 col-xs-12 text-center">
-                <button id="nextQuestion" class="btn btn-info card-link">Next <i class="fa fa-chevron-right"
-                        aria-hidden="true"></i></button>
+                <button class="btn btn-info card-link nextQuestion">Next <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
             </div>
         </div>
-        <div class="row" id="prevReview" style="display:none">
+        <div class="row prevReview" style="display:none">
             <div class="col-md-12 col-xs-12 text-center">
-                Previous Question : <span id="previousQuestion"></span>
+                Previous Question : <span class="previousQuestion"></span>
             </div>
         </div>
     </div>
 
     <!-- Final Report -->
-    <div class="card" id="report" style="display:none">
+    <div class="card reportCard" style="display:none">
         <div class="card-body">
-            <h4 class="card-title">Your Final Report</h4>
-            <h6>Total Score : <span id="score"></span> out of <span id="totalScore"></span></h6>
-            <h6>Correct : <span id="correct"></span></h6>
-            <h6>Incorrect : <span id="incorrect"></span></h6>
-            <h6>Not Attempted : <span id="na"></span></h6>
+            <h4 class="card-title"><span class="testReport"></span> Report</h4>
+            <h6>Total Score : <span class="score"></span> out of <span class="totalScore"></span></h6>
+            <h6>Correct : <span class="correct"></span></h6>
+            <h6>Incorrect : <span class="incorrect"></span></h6>
+            <h6>Not Attempted : <span class="na"></span></h6>
 
             <div class="row">
-                <div class="col-md-6 col-xs-6">
-                    <button id="restartTest" class="btn btn-primary card-link">Restart Test</button>
-                </div>
-                <div class="col-md-6 col-xs-6">
-                    <button id="customizeTest" class="btn btn-primary card-link">Customize Test</button>
+                <div class="col-md-12 col-xs-12">
+                    <button class="btn btn-primary card-link restartTest">Restart Test</button>
                 </div>
             </div>
-
-
         </div>
     </div>
 

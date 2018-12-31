@@ -1,9 +1,14 @@
 // ------------ Global Valued Vars ----------- // 
-let questionsLimit = 20;
-let numericLimit = 20;
-let timerLimit = 30000;
+let quizCount = 1;
+let settingsArray = [];
+let responseArray = [];
+let defaultSettings = {
+    questionsLimit: 20,
+    numericLimit: 20,
+    timerLimit: 30000
+}
 const operators = ['+', '-', '/', 'X'];
-// ---------- ---------------------------- //
+// ------------------------------------------- //
 
 const randomOperator = () => {
     return operators[randomGenerator(operators.length)];
@@ -14,7 +19,35 @@ const randomGenerator = (limit) => {
 }
 
 const hideElements = (...ids) => {
-    ids.map((ele) => document.getElementById(ele).style.display = 'none')
+    ids.map((ele) => document.getElementById(ele).style.display = 'none');
+}
+
+const showElements = (...ids) => {
+    ids.map((ele) => document.getElementById(ele).style.display = 'block')
+}
+
+const getElement = (id) => {
+    return document.getElementById(id);
+}
+
+const setElementText = (id, text) => {
+    document.getElementById(id).innerHTML = text;
+}
+
+const getTarget = (className, index = 0) => {
+    return document.getElementsByClassName(className)[index];
+}
+
+const setTargetText = (className, index, text) => {
+    getTarget(className, index).innerHTML = text;
+}
+
+const hideClass = (className, index = 0) => {
+    document.getElementsByClassName(className)[index].style.display = 'none';
+}
+
+const showClass = (className, index = 0) => {
+    document.getElementsByClassName(className)[index].style.display = 'block';
 }
 
 const getAnswer = (num1, num2, operator) => {
@@ -36,85 +69,120 @@ const getAnswer = (num1, num2, operator) => {
     }
 }
 
-const showElements = (...ids) => {
-    ids.map((ele) => document.getElementById(ele).style.display = 'block')
-}
-
-const getElement = (id) => {
-    return document.getElementById(id);
-}
-
-const setElementText = (id, text) => {
-    document.getElementById(id).innerHTML = text;
-}
-
-const review = (num) => {
+const review = (num, index) => {
     if (num == 1) {
-        getElement('previousQuestion').style.color = "#28a745";
+        getTarget('previousQuestion', index).style.color = "#28a745";
         return 'Correct (+1)';
-    } else if (typeof num == 'string') {
-        getElement('previousQuestion').style.color = "#ffc107";
+    } else if (num == -1) {
+        getTarget('previousQuestion', index).style.color = "#ffc107";
         return 'Not Attempted';
     } else {
-        getElement('previousQuestion').style.color = "#dc3545";
+        getTarget('previousQuestion', index).style.color = "#dc3545";
         return 'Incorrect';
     }
 }
 
-// --------------- //
+// --------------------------------------------- ----------------------------------- //
 
+
+// Function TO Prepare Settings And responseArray
+let prepareTest = () => {
+    for (let i = 0; i < quizCount; i++) {
+        let questionCount = getTarget('questions', i).value;
+        let timePquestion = getTarget('timeLimit', i).value;
+        let numLimit = getTarget('numLimit', i).value;
+        settingsArray.push(Object.assign({}, defaultSettings));
+
+        questionCount ? settingsArray[i].questionsLimit = parseInt(questionCount) : null;
+        timePquestion ? settingsArray[i].timerLimit = parseInt(timePquestion) * 1000 : null;
+        numLimit ? settingsArray[i].numericLimit = parseInt(numLimit) : null;
+
+        responseArray.push(new Array(settingsArray[i].questionsLimit).fill(-1));
+    }
+    console.log(settingsArray)
+    console.log(responseArray);
+}
+
+// Creates Test Panels
+let createTestPanels = () => {
+    for (let i = 0; i < quizCount; i++) {
+        showClass('container');
+        if (i != 0) {
+            // Panel Addition
+            var panel = getTarget('container');
+            var clonedPanel = panel.cloneNode(true);
+            document.body.appendChild(clonedPanel);
+
+            // Report Addition
+            var reportCard = getTarget('reportCard');
+            var clonedReportCard = reportCard.cloneNode(true);
+            document.body.appendChild(clonedReportCard);
+        }
+
+        // Sets Name
+        setTargetText('username', i, getElement('name').value);
+        setTargetText('testHead', i, 'Test ' + parseInt(i + 1));
+
+        // Inits TestPanel
+        testPanel(i);
+    }
+}
 
 // Function To Initiate Test
-let testPanel = function () {
-    let responseArray = new Array(questionsLimit).fill(0);
+let testPanel = function (index) {
+
     let questionIndex = -1;
-    setElementText('totalQuestions', questionsLimit.toString());
+    let questionsLimit = settingsArray[index].questionsLimit;
+    let numericLimit = settingsArray[index].numericLimit;
+    let timerLimit = settingsArray[index].timerLimit;
+
+    // Sets TotalQuestions
+    setTargetText('totalQuestions', index, questionsLimit);
 
     function questionLoop() {
 
         if (questionIndex == questionsLimit - 1) {
             // Logic For Report
-            hideElements('testPanel');
-            showElements('report');
-            questionReport(responseArray);
+            questionReport(index, questionsLimit);
+            hideClass('container', index);
+            showClass('reportCard', index);
             return;
         } else if (questionIndex >= 0 && questionIndex < questionsLimit) {
-            setElementText('previousQuestion', review(responseArray[questionIndex]));
-            showElements('prevReview');
+            setTargetText('previousQuestion', index, review(responseArray[index][questionIndex], index))
+            showClass('prevReview', index);
         }
 
         questionIndex++;
-        setElementText('currentQuestion', (questionIndex + 1).toString());
+        setTargetText('currentQuestion', index, (questionIndex + 1).toString());
 
         let numberOne = randomGenerator(numericLimit);
         let numberTwo = randomGenerator(numericLimit);
         let operator = randomOperator();
-        setElementText('numberOne', numberOne);
-        setElementText('numberTwo', numberTwo);
-        setElementText('operator', operator);
+        setTargetText('numberOne', index, numberOne);
+        setTargetText('numberTwo', index, numberTwo);
+        setTargetText('operator', index, operator);
 
         // Show Division Hint 
-        operator == '/' ? showElements('hint') : hideElements('hint')
+        operator == '/' ? showClass('hint', index) : hideClass('hint', index)
 
         let recordResponse = () => {
-            let response = getElement('ans').value;
-            let correct;
-            if(operator == '/' && numberTwo == 0){
-                correct = 'NA';
-            }else{
-                correct = parseFloat(response) == getAnswer(numberOne, numberTwo, operator);
+            let response = getTarget('ans', index).value;
+            if (operator == '/' && numberTwo == 0) {
+                var correct = 'NA' == (getAnswer(numberOne, numberTwo, operator)).toString().toUpperCase();
+            } else {
+                var correct = Math.round(response) == getAnswer(numberOne, numberTwo, operator);
             }
 
             if (!response) {
-                responseArray[questionIndex] = ''
+                responseArray[index][questionIndex] = -1;
             } else {
-                correct ? responseArray[questionIndex] = 1 : responseArray[questionIndex] = 0
+                correct ? responseArray[index][questionIndex] = 1 : responseArray[index][questionIndex] = 0
             }
-            console.log(responseArray);
+            // console.log(responseArray);
 
-            // Removes the click event listener
-            getElement('nextQuestion').removeEventListener('click', nextListener);
-            getElement('ans').value = '';
+            // Removes the click event listener and empties answer
+            getTarget('nextQuestion', index).removeEventListener('click', nextListener);
+            getTarget('ans', index).value = '';
         }
 
         let nextListener = () => {
@@ -124,16 +192,16 @@ let testPanel = function () {
         }
 
         // Adding Event Listener on Next Button
-        getElement('nextQuestion').addEventListener('click', nextListener, false);
+        getTarget('nextQuestion', index).addEventListener('click', nextListener, false);
 
         // Question Timer
         let timer = Math.floor(timerLimit / 1000);
         var timerCounter = setInterval(function () {
-            setElementText("timer", timer + ' s');
+            setTargetText('timer', index, timer + ' s');
             timer--;
             if (timer == 0) {
                 recordResponse();
-                setElementText("timer", "EXPIRED");
+                setTargetText('timer', index, 'EXPIRED');
                 clearInterval(timerCounter);
                 questionLoop();
             }
@@ -143,60 +211,62 @@ let testPanel = function () {
     questionLoop();
 }
 
-let questionReport = (resArray) => {
+// Report Setting
+let questionReport = (index, qLimit) => {
     let report = {
         correct: 0,
         incorrect: 0,
         na: 0
     }
 
-    resArray.map((ele) => {
+    responseArray[index].map((ele) => {
         if (ele == 1) {
             report.correct++;
-        } else if (typeof ele == 'string') {
+        } else if (ele == -1) {
             report.na++;
         } else {
             report.incorrect++;
         }
     })
 
+    let restartListener = () => {
+        responseArray[index] = new Array(questionsLimit).fill(-1);
+        hideClass('reportCard', index);
+        showClass('container', index);
+        testPanel(index);
+    }
+
+    // Removes Listener
+    getTarget('restartTest', index).removeEventListener('click',restartListener);
+
+    // Adds Restart Listener
+    getTarget('restartTest', index).addEventListener('click',restartListener, false);
+
     // Setting Report
-    setElementText('score', report.correct);
-    setElementText('correct', report.correct);
-    setElementText('incorrect', report.incorrect);
-    setElementText('na', report.na);
-    setElementText('totalScore', questionsLimit);
+    setTargetText('testReport', index, 'Test ' + parseInt(index + 1));
+    setTargetText('score', index, report.correct);
+    setTargetText('correct', index, report.correct);
+    setTargetText('incorrect', index, report.incorrect);
+    setTargetText('na', index, report.na);
+    setTargetText('totalScore', index, qLimit);
 
     console.log(report)
 }
 
+// Global Listeners
 getElement('startTest').addEventListener('click', () => {
-    getElement('questions').value ? questionsLimit = parseInt(getElement('questions').value) : null;
-    getElement('timeLimit').value ? timerLimit = parseInt(getElement('timeLimit').value) * 1000 : null;
-    getElement('numLimit').value ? numericLimit = parseInt(getElement('numLimit').value) : null;
-    console.log(questionsLimit, timerLimit, numericLimit);
-
-    hideElements('intro');
-    showElements('testPanel');
-    setElementText('username', getElement('name').value);
-    testPanel();
+    hideClass('infoPrompt');
+    prepareTest();
+    createTestPanels();
 }, false);
 
-getElement('restartTest').addEventListener('click', () => {
-    hideElements('report');
-    showElements('testPanel');
-    setElementText('username', getElement('name').value);
-    testPanel();
-}, false)
-
-getElement('customizeTest').addEventListener('click', ()=>{
-    getElement('name').value = '';
-    getElement('questions').value = '';
-    getElement('timeLimit').value = '';
-    getElement('numLimit').value = '';
-    hideElements('report');
-    showElements('intro');
-},false)
+getElement('addMore').addEventListener('click', () => {
+    var settingsEle = getTarget('testSettingsWrapper');
+    var clonedEle = settingsEle.cloneNode(1);
+    getElement('introCard').appendChild(clonedEle);
+    setTargetText('settingsHead', quizCount, 'Test ' + parseInt(quizCount + 1));
+    quizCount++;
+}, false);
 
 getElement('name').addEventListener('input', (event) => {
     if (event.target.value) {

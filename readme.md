@@ -5,7 +5,7 @@ Currently Renders a single Test (Will WOrk on MultiQuiz Creation & More Customiz
 
 You Can Change Username, Questions, QuizTimer For Each Question and numeric Limit 
 
-Edit Line 2,3,4 in js/controller.js
+Edit variable named 'defaultSettings' at line number 5 in js/controller.js
 
 
 Run index.html on browser
