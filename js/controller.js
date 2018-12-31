@@ -1,7 +1,7 @@
 // ------------ Global Valued Vars ----------- // 
-const questionsLimit = 20;
-const numericLimit = 20;
-const timerLimit = 30000;
+let questionsLimit = 20;
+let numericLimit = 20;
+let timerLimit = 30000;
 const operators = ['+', '-', '/', 'X'];
 // ---------- ---------------------------- //
 
@@ -26,7 +26,11 @@ const getAnswer = (num1, num2, operator) => {
         case '-':
             return num1 - num2;
         case '/':
-            return (num1 / num2).toFixed(2);
+            if (num2 == 0) {
+                return ('NA')
+            } else {
+                return (Math.round(num1 / num2))
+            }
         case 'X':
             return num1 * num2;
     }
@@ -68,7 +72,7 @@ let testPanel = function () {
 
     function questionLoop() {
 
-        if (questionIndex == questionsLimit -1 ) {
+        if (questionIndex == questionsLimit - 1) {
             // Logic For Report
             hideElements('testPanel');
             showElements('report');
@@ -89,9 +93,18 @@ let testPanel = function () {
         setElementText('numberTwo', numberTwo);
         setElementText('operator', operator);
 
+        // Show Division Hint 
+        operator == '/' ? showElements('hint') : hideElements('hint')
+
         let recordResponse = () => {
             let response = getElement('ans').value;
-            let correct = parseFloat(response) == getAnswer(numberOne, numberTwo, operator);
+            let correct;
+            if(operator == '/' && numberTwo == 0){
+                correct = 'NA';
+            }else{
+                correct = parseFloat(response) == getAnswer(numberOne, numberTwo, operator);
+            }
+
             if (!response) {
                 responseArray[questionIndex] = ''
             } else {
@@ -147,6 +160,7 @@ let questionReport = (resArray) => {
         }
     })
 
+    // Setting Report
     setElementText('score', report.correct);
     setElementText('correct', report.correct);
     setElementText('incorrect', report.incorrect);
@@ -157,6 +171,11 @@ let questionReport = (resArray) => {
 }
 
 getElement('startTest').addEventListener('click', () => {
+    getElement('questions').value ? questionsLimit = parseInt(getElement('questions').value) : null;
+    getElement('timeLimit').value ? timerLimit = parseInt(getElement('timeLimit').value) * 1000 : null;
+    getElement('numLimit').value ? numericLimit = parseInt(getElement('numLimit').value) : null;
+    console.log(questionsLimit, timerLimit, numericLimit);
+
     hideElements('intro');
     showElements('testPanel');
     setElementText('username', getElement('name').value);
@@ -170,11 +189,21 @@ getElement('restartTest').addEventListener('click', () => {
     testPanel();
 }, false)
 
+getElement('customizeTest').addEventListener('click', ()=>{
+    getElement('name').value = '';
+    getElement('questions').value = '';
+    getElement('timeLimit').value = '';
+    getElement('numLimit').value = '';
+    hideElements('report');
+    showElements('intro');
+},false)
+
 getElement('name').addEventListener('input', (event) => {
     if (event.target.value) {
         getElement('startTest').disabled = false;
     }
 }, false)
+
 
 
 

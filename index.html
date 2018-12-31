@@ -19,9 +19,18 @@
     <!-- Name Prompt -->
     <div class="card" id="intro">
         <div class="card-body">
-            <h4 class="card-title">Enter Your Name</h4>
+            <h4 class="card-title">Customize Your Maths Quiz<span class="addMore"><i class="fa fa-plus" aria-hidden="true"></i></span></h4>
             <p class="card-text">
-                <input type="text" class="form-control" id="name" placeholder="Name Here" />
+                <input type="text" class="form-control" id="name" placeholder="Name Here *" />
+            </p>
+            <p class="card-text">
+                <input type="number" class="form-control" id="questions" placeholder="Number of Questions (default is 20)" />
+            </p>
+            <p class="card-text">
+                <input type="number" class="form-control" id="timeLimit" placeholder="Time Limit in sec (default is 30s)" />
+            </p>
+            <p class="card-text">
+                <input type="number" class="form-control" id="numLimit" placeholder="Number Limit (default is 20)" />
             </p>
             <button id="startTest" class="btn btn-primary card-link" disabled>Start Test</button>
         </div>
@@ -57,6 +66,12 @@
                     </h2>
             </div>
         </div>
+        <div class="row" id="hint" style="display:none">
+            <div class="col-md-12 col-xs-12 text-center">
+                <p style="color:#17a2b8; font-size: 11px;margin: 0">Info :- Round Off to nearest integer</p>
+                <p style="color:#17a2b8; font-size: 11px;margin: 0">Enter NA if division Not Possible</p>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12 col-xs-12 text-center" style="padding:12px">
                 <input type="text" class="form-control" id="ans" placeholder="Answer Here" />
@@ -84,7 +99,16 @@
             <h6>Incorrect : <span id="incorrect"></span></h6>
             <h6>Not Attempted : <span id="na"></span></h6>
 
-            <button id="restartTest" class="btn btn-primary card-link">Restart Test</button>
+            <div class="row">
+                <div class="col-md-6 col-xs-6">
+                    <button id="restartTest" class="btn btn-primary card-link">Restart Test</button>
+                </div>
+                <div class="col-md-6 col-xs-6">
+                    <button id="customizeTest" class="btn btn-primary card-link">Customize Test</button>
+                </div>
+            </div>
+
+
         </div>
     </div>
 

@@ -1,0 +1,20 @@
+{
+  "name": "timedmathsexercise",
+  "version": "1.0.0",
+  "description": "Simple Maths Quiz",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "open ./index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gash48/timedMathsExercise.git"
+  },
+  "author": "Gash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gash48/timedMathsExercise/issues"
+  },
+  "homepage": "https://github.com/gash48/timedMathsExercise#readme"
+}

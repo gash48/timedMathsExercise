@@ -36,7 +36,18 @@ border: 1px solid grey;
     display: inline-block;
 }
 
+.addMore{
+    float:right;
+    cursor: pointer;
+}
 
+.addMore:hover{
+    border: 0.5px solid lightgrey;
+    padding: 0px 6px;
+    background-color: #dedede;
+    border-radius: 15px;
+    box-shadow: 1px 1px 1px;
+}
 
 #ans{
     width: 20%;
