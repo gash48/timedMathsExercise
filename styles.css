@@ -61,6 +61,11 @@ border: 1px solid grey;
     margin: 0
 }
 
+.reportCard{
+    float: left;
+    margin: 2% 0;
+}
+
 .row{
     margin-top: 20px;
 }
